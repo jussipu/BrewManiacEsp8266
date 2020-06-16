@@ -68,6 +68,10 @@
 #define EnableLevelSensor false
 #endif
 
+#ifndef UseLittleFS
+#define UseLittleFS true
+#endif
+
 /**************************************************************************************/
 /*  BrewManiac Related settings                                                       */
 /**************************************************************************************/
@@ -175,7 +179,7 @@
 /*  version information     														  */
 /**************************************************************************************/
 
-#define BME8266_VERSION "0.4.7"
+#define BME8266_VERSION "0.4.9"
 
 #if MaximumNumberOfSensors >  1
 	#if LCD_USE_SSD1306 == true
@@ -190,7 +194,5 @@
 		#define BUILD_OPTIONS "s"
 	#endif
 #endif
-
-
 
 #endif

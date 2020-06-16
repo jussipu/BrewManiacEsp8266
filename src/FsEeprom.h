@@ -1,13 +1,13 @@
-#ifndef SPIFFSEEPROM_H
-#define SPIFFSEEPROM_H
+#ifndef FSEEPROM_H
+#define FSEEPROM_H
 
-class SpiffsEEPROMClass
+class FsEEPROMClass
 {
 	char* _eeprom;
 	int  _size;
 	bool _dirty;
 public:
-	SpiffsEEPROMClass(void):_size(0),_dirty(false){}
+	FsEEPROMClass(void):_size(0),_dirty(false){}
 
 	void begin(int size);
 
@@ -21,6 +21,6 @@ public:
 	int   size(void){ return _size; }
 };
 
-extern SpiffsEEPROMClass SpiEEPROM;
+extern FsEEPROMClass FsEEPROM;
 
 #endif

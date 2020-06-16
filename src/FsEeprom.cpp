@@ -1,12 +1,13 @@
 #include <FS.h>
-#include "SpiffsEeprom.h"
+#include "FsEeprom.h"
 
 #define EEPROM_FILENAME "/eeprom.bin"
 
+extern FS& FileSystem;
 
-SpiffsEEPROMClass SpiEEPROM;
+FsEEPROMClass FsEEPROM;
 
-void SpiffsEEPROMClass::begin(int size)
+void FsEEPROMClass::begin(int size)
 {
 	_eeprom=(char*) malloc(size);
 
@@ -14,8 +15,8 @@ void SpiffsEEPROMClass::begin(int size)
 
 	_size=size;
 
-	if(SPIFFS.exists(EEPROM_FILENAME)){
-		File f=SPIFFS.open(EEPROM_FILENAME,"r+");
+	if(FileSystem.exists(EEPROM_FILENAME)){
+		File f=FileSystem.open(EEPROM_FILENAME,"r+");
 		if(f){
 //			Serial.printf("read EEPROM from file\n");
 			f.readBytes(_eeprom,_size);
@@ -26,12 +27,12 @@ void SpiffsEEPROMClass::begin(int size)
 	}
 }
 
-void SpiffsEEPROMClass::commit(bool force){
+void FsEEPROMClass::commit(bool force){
 		if(!_dirty && !force) return;
 
 //		Serial.printf("commit EEPROM\n");
 
-		File f=SPIFFS.open(EEPROM_FILENAME,"w+");
+		File f=FileSystem.open(EEPROM_FILENAME,"w+");
 		if(f){
 //			Serial.printf("write EEPROM to file\n");
 			f.write((const uint8_t*)_eeprom,_size);
@@ -40,12 +41,12 @@ void SpiffsEEPROMClass::commit(bool force){
 		}
 }
 
-byte SpiffsEEPROMClass::read(int address){
+byte FsEEPROMClass::read(int address){
 	if(address > _size) return 0;
 	return (byte)_eeprom[address];
 }
 
-bool SpiffsEEPROMClass::write(int address,byte value){
+bool FsEEPROMClass::write(int address,byte value){
 		if(address > _size) return false;
 		if(_eeprom[address] == value) return false;
 		_eeprom[address] = value;
